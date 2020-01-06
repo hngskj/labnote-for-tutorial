@@ -1,6 +1,10 @@
 * { box-sizing: border-box; }
 body {
   font: 16px Arial;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .autocomplete {
   /*the container must be positioned relative:*/
