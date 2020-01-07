@@ -1,9 +1,11 @@
 let createbutton;
 let guide, input, button;
+let auto_input, auto_div, auto_comp;
 let solutions = [];
 var infos = ['Name', 'Product No.', 'Type', 'Solvent', 'Concentration'];
 var cur = 0;
 var released = false;
+var yloc = 0;
 
 
 function setup(){
@@ -18,56 +20,79 @@ function setup(){
 }
 
 function createSolution(){
-    y = solutions.length * 50;
+    y = yloc * 50;
     let s = new Solution(y=y);
     solutions.push(s);
+    yloc++;
 
     cur_s = solutions[solutions.length-1];
     makeInputs(cur_s);
+
+    autocomplete(document.getElementById("myInput"));
 }
 
-function makeInputs(s){
+function makeAutocomplete(info){
+    console.log(info);
+    auto_input = createElement('input');
+    auto_input.id('myInput');
+    auto_input.attribute('type', 'text');
+    auto_input.attribute('name', info);
+    auto_input.attribute('placeholder', 'type here');
+
+    auto_div = createElement('div');
+    auto_div.class('autocomplete');
+    auto_div.style('width', '200px');
+    auto_div.child(auto_input);
+
+    auto_comp = createElement('form');
+    auto_comp.position(30, 100);
+    auto_comp.size(150, 30);
+    auto_comp.attribute('autocomplete', "off");
+    auto_comp.child(auto_div);
+}
+
+function makeInputs(s, info){
     guide = createP(infos[cur]);
     guide.position(30, 60);
-    input = createInput('');
-    input.position(30, 100);
-    input.size(150, 30);
+
+    makeAutocomplete(info);
+
     button = createButton('done');
-    button.position(input.x+input.width, input.y);
+    button.position(auto_comp.x+auto_comp.width, auto_comp.y);
     button.size(60, 30);
     button.mousePressed(function(){submitButton(infos[cur], s, cur++)});
 }
 
 function submitButton(info, s){
-    let val = input.value();
+    let val = auto_input.value();
     if (info == 'Name'){
         s.name = val;
         guide.remove();
-        input.remove();
+        auto_input.remove();
         button.remove();
-        makeInputs(s);
+        makeInputs(s, info);
     } else if (info == 'Product No.'){
         s.prod_num = val;
         guide.remove();
-        input.remove();
+        auto_input.remove();
         button.remove();
-        makeInputs(s);
+        makeInputs(s, info);
     } else if (info == 'Type'){
         s.type = val;
         guide.remove();
-        input.remove();
+        auto_input.remove();
         button.remove();
-        makeInputs(s);
+        makeInputs(s, info);
     } else if (info == 'Solvent'){
         s.solvent = val;
         guide.remove();
-        input.remove();
+        auto_input.remove();
         button.remove();
-        makeInputs(s);
+        makeInputs(s, info);
     } else if (info == 'Concentration'){
         s.concentration = val;
         guide.remove();
-        input.remove();
+        auto_input.remove();
         button.remove();
         cur = 0;
     }
@@ -104,11 +129,14 @@ function mouseReleased(){
 
 function mergeSols(sol1, sol2){
     // ADD NEW SOL
+    y = yloc * 50;
+    y = solutions.length * 50;
     let s = new Solution(y=y);
     s.previous.push(sol1.name, sol2.name);
     temp = " + ".concat(sol2.name);
     s.name = sol1.name.concat(temp);
     solutions.push(s);
+    yloc++;
 
 
     // REMOVE sol1 AND sol2
