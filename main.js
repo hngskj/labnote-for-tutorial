@@ -6,12 +6,14 @@ var infos = ['Name', 'Product No.', 'Type', 'Solvent', 'Concentration'];
 var cur = 0;
 var released = false;
 var yloc = 0;
+var xloc;
 
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
     rectMode(CENTER);
     textAlign(CENTER);
+    xloc = width/2;
 
     let createbutton = createButton('create new');
     createbutton.position(20, 20);
@@ -21,7 +23,7 @@ function setup(){
 
 function createSolution(){
     y = yloc * 50;
-    let s = new Solution(y=y);
+    let s = new Solution(x=xloc, y=y);
     solutions.push(s);
     yloc++;
 
@@ -47,7 +49,7 @@ function makeAutocomplete(info){
     auto_comp.child(auto_div);
 }
 
-function makeInputs(s, info){
+function makeInputs(s){
     guide = createP(infos[cur]);
     guide.position(30, 60);
 
@@ -109,7 +111,6 @@ function mousePressed(){
 }
 
 function mouseDragged(){
-    fill(0,127,255,50);
     solutions.forEach(function(s,i){
         if (s.locked) {
             s.x = mouseX - s.xoffset;
@@ -129,13 +130,14 @@ function mergeSols(sol1, sol2){
     // ADD NEW SOL
     y = yloc * 50;
     y = solutions.length * 50;
-    let s = new Solution(y=y);
-    s.previous.push(sol1.name, sol2.name);
-    temp = " + ".concat(sol2.name);
-    s.name = sol1.name.concat(temp);
+    let s = new Solution(x=xloc, y=y);
+    s.previous.push(sol1, sol2);
+
+    temp = " + ".concat(s.previous[1].name);
+    s.name = s.previous[0].name.concat(temp);
+    
     solutions.push(s);
     yloc++;
-
 
     // REMOVE sol1 AND sol2
     let idx1 = solutions.indexOf(sol1);
@@ -150,21 +152,37 @@ function draw(){
         s.show();
         s.contains();
         s.col = color(255,255,255,127);
-        if (s.over && s.prod_num && s.type && s.solvent && s.concentration){
+        // if (s.over && s.prod_num && s.type && s.solvent && s.concentration){
+        if (s.over){
             s.dispinfo();
         }
     })
+
+    // MERGE function
     for (var ii=0; ii<solutions.length; ii++){
         for (var jj=0; jj<solutions.length; jj++){
             if (ii != jj && solutions[ii].intersect(solutions[jj])){
                 solutions[ii].col = color(0,255,0,127);
                 solutions[jj].col = color(0,255,0,127);
-                
-                // merge
                 if (released) {
                     mergeSols(solutions[ii], solutions[jj]);
                 }
             }
         }
     }
+
+    // COPY function
+    solutions.forEach(function(s){
+        if (s.over){
+            if (keyIsPressed === true && keyCode === CONTROL) {
+                s.col = color(255,255,0,127);
+                if (s.locked) {
+                    var temp_s = s;
+                    if (s.released){
+                        solutions.push(temp_s);
+                    }
+                }
+            }
+        }
+    })
 }

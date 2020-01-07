@@ -1,5 +1,5 @@
-var metas =[["Ag", "AgNo2", "AgNo3", "Na", "NaC", "Na1C", "Na2C", "Na3C", "P", "PS", "PSS", "PSSS", "NaBH", "NaBH2", "NaBH3", "NaBH4"],
-            ["209139", "1.01512", "S8157", "W302600", "768650", "71320"],
+var metas =[["Ag", "AgNo2", "AgNo3", "Na", "NaC", "Na1C", "Na2C", "Na3C", "P", "PS", "PSS", "PSSS", "NaBH", "NaBH2", "NaBH3", "NaBH4", "H", "H2O", "HO2", "Ascorbic acid", "K2PdCl4"],
+            ["209139", "1.01512", "S8157", "W302600", "768650", "71320", "1043003", "379816"],
             ["Solid", "Solution"],
             ["Water", "Ethanol"]];
 var dom_name;
