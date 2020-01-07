@@ -1,15 +1,28 @@
-var name_list = ["Ag", "AgNo2", "AgNo3"];
-var prod_num_list = ["209139", "1.01512", "S8157"];
-var type_list = ["Solid", "Solution"];
-var solvent_list = ["Water", "Ethanol"];
-var metas =[["Ag", "AgNo2", "AgNo3"],
-            ["209139", "1.01512", "S8157"],
+var metas =[["Ag", "AgNo2", "AgNo3", "Na", "NaC", "Na1C", "Na2C", "Na3C", "P", "PS", "PSS", "PSSS", "NaBH", "NaBH2", "NaBH3", "NaBH4"],
+            ["209139", "1.01512", "S8157", "W302600", "768650", "71320"],
             ["Solid", "Solution"],
             ["Water", "Ethanol"]];
+var dom_name;
 
 function autocomplete(inp) {
-    // console.log(inp);
-    var arr = name_list;
+    dom_name = inp["className"];
+    var arr;
+    switch (dom_name) {
+        case 'Name':
+            arr = metas[0];
+            break;
+        case 'Product No.':
+            arr = metas[1];
+            break;
+        case 'Type':
+            arr = metas[2];
+            break;
+        case 'Solvent':
+            arr = metas[3];
+            break;
+        default:
+            arr = [];
+    }
     
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/

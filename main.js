@@ -27,17 +27,13 @@ function createSolution(){
 
     cur_s = solutions[solutions.length-1];
     makeInputs(cur_s);
-
-    autocomplete(document.getElementById("myInput"));
 }
 
 function makeAutocomplete(info){
-    console.log(info);
     auto_input = createElement('input');
+    auto_input.class(info);
     auto_input.id('myInput');
     auto_input.attribute('type', 'text');
-    auto_input.attribute('name', info);
-    auto_input.attribute('placeholder', 'type here');
 
     auto_div = createElement('div');
     auto_div.class('autocomplete');
@@ -55,11 +51,12 @@ function makeInputs(s, info){
     guide = createP(infos[cur]);
     guide.position(30, 60);
 
-    makeAutocomplete(info);
+    makeAutocomplete(infos[cur]);
+    autocomplete(document.getElementById("myInput"));
 
     button = createButton('done');
-    button.position(auto_comp.x+auto_comp.width, auto_comp.y);
-    button.size(60, 30);
+    button.position(auto_comp.x+auto_comp.width+50, auto_comp.y);
+    button.size(60, 40);
     button.mousePressed(function(){submitButton(infos[cur], s, cur++)});
 }
 
@@ -112,6 +109,7 @@ function mousePressed(){
 }
 
 function mouseDragged(){
+    fill(0,127,255,50);
     solutions.forEach(function(s,i){
         if (s.locked) {
             s.x = mouseX - s.xoffset;
@@ -164,8 +162,6 @@ function draw(){
                 
                 // merge
                 if (released) {
-                    // let id1 = solutions[ii].id;
-                    // let id2 = solutions[jj].id;
                     mergeSols(solutions[ii], solutions[jj]);
                 }
             }
