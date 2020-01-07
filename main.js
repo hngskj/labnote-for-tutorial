@@ -5,6 +5,7 @@ let solutions = [];
 var infos = ['Name', 'Product No.', 'Type', 'Solvent', 'Concentration'];
 var cur = 0;
 var released = false;
+var y;
 var yloc = 0;
 var xloc;
 
@@ -126,25 +127,41 @@ function mouseReleased(){
     }
 }
 
-function mergeSols(sol1, sol2){
-    // ADD NEW SOL
+// function updateVol(sol1, sol2){
+//     let sol1_vol, sol2_vol;
+//     let updateButton = createButton();
+//     updateButton.mousePressed();
+
+//     fill(50, 50);
+//     rect(mouseX, mouseY, 200, 200);
+//     // s1_t = createP()
+//     // s1_in = createInput();
+// }
+
+function addNewSol(sol1, sol2){
     y = yloc * 50;
     y = solutions.length * 50;
     let s = new Solution(x=xloc, y=y);
     s.previous.push(sol1, sol2);
-
-    temp = " + ".concat(s.previous[1].name);
-    s.name = s.previous[0].name.concat(temp);
-    
     solutions.push(s);
     yloc++;
+}
 
-    // REMOVE sol1 AND sol2
+function updateNewSol(){
+    s = solutions[solutions.length-1];
+    let temp = " + ".concat(s.previous[1].name);
+    s.name = s.previous[0].name.concat(temp);
+    s.x = (s.previous[0].x + s.previous[1].x)/2;
+    s.y = (s.previous[0].y + s.previous[1].y)/2;
+}
+
+function removeSols(sol1, sol2){
     let idx1 = solutions.indexOf(sol1);
     if (idx1 !== -1) solutions.splice(idx1, 1);
     let idx2 = solutions.indexOf(sol2);
     if (idx2 !== -1) solutions.splice(idx2, 1);
 }
+
 
 function draw(){
     background(220);
@@ -165,7 +182,9 @@ function draw(){
                 solutions[ii].col = color(0,255,0,127);
                 solutions[jj].col = color(0,255,0,127);
                 if (released) {
-                    mergeSols(solutions[ii], solutions[jj]);
+                    addNewSol(solutions[ii], solutions[jj]);
+                    updateNewSol();
+                    removeSols(solutions[ii], solutions[jj]);
                 }
             }
         }
@@ -173,16 +192,21 @@ function draw(){
 
     // COPY function
     solutions.forEach(function(s){
-        if (s.over){
-            if (keyIsPressed === true && keyCode === CONTROL) {
+        if (keyIsPressed === true && keyCode === CONTROL) {
+            if (s.over) {
+
+                // let new_s = s;
                 s.col = color(255,255,0,127);
-                if (s.locked) {
-                    var temp_s = s;
-                    if (s.released){
-                        solutions.push(temp_s);
-                    }
-                }
+                // new_s.x = mouseX;
+                // new_s.y = mouseY;
+                
             }
         }
     })
+
+    // Solution pos
+    if (y>height) {
+        yloc = 0;
+        xloc = width/2 + 250;
+    }
 }

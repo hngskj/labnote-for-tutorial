@@ -7,6 +7,7 @@ class Solution {
         this.solvent = null; // water, ethanol,
         this.concentration = null; // 0.5
         this.unit = null; // mM, g/L,
+        this.volumn = null; // uL, mL
         this.previous = [];
 
         this.x = x;
