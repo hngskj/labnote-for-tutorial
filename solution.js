@@ -1,11 +1,13 @@
 class Solution {
     constructor(y){
+        this.id = new Date().getTime();
         this.name = 'empty';
         this.prod_num = null;
         this.type = null; // solid, solution,
         this.solvent = null; // water, ethanol,
         this.concentration = null; // 0.5
         this.unit = null; // mM, g/L,
+        this.previous = [];
 
         this.x = width/2;
         this.y = y+100;
@@ -45,16 +47,16 @@ class Solution {
     }
 
     dispinfo(){
-        let cur_x = this.x + 170;
+        let cur_x = this.x + 220;
         let cur_y = this.y + 5;
-        fill(255, 127);
-        rect(cur_x, this.y, 100, 90);
+        fill(255, 80);
+        rect(cur_x, this.y, 200, 90);
         fill(0);
         textSize(13);
-        text(this.prod_num, cur_x, cur_y-30);
-        text(this.type, cur_x, cur_y-10);
-        text(this.solvent, cur_x, cur_y+10);
-        text(this.concentration, cur_x, cur_y+30);
+        text("Product No.: ".concat(this.prod_num), cur_x, cur_y-30);
+        text("Type: ".concat(this.type), cur_x, cur_y-10);
+        text("Solvent: ".concat(this.solvent), cur_x, cur_y+10);
+        text("Conc.: ".concat(this.concentration), cur_x, cur_y+30);      
     }
 
     show(){

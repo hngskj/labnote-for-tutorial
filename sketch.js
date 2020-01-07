@@ -3,6 +3,7 @@ let guide, input, button;
 let solutions = [];
 var infos = ['Name', 'Product No.', 'Type', 'Solvent', 'Concentration'];
 var cur = 0;
+var released = false;
 
 
 function setup(){
@@ -73,6 +74,7 @@ function submitButton(info, s){
 }
 
 function mousePressed(){
+    released = false;
     solutions.forEach(function(s){
         if (s.over){
             s.locked = true;
@@ -94,9 +96,26 @@ function mouseDragged(){
 }
 
 function mouseReleased(){
+    released = true;
     for (let i=0; i<solutions.length; i++){
         solutions[i].locked = false;
     }
+}
+
+function mergeSols(sol1, sol2){
+    // ADD NEW SOL
+    let s = new Solution(y=y);
+    s.previous.push(sol1.name, sol2.name);
+    temp = " + ".concat(sol2.name);
+    s.name = sol1.name.concat(temp);
+    solutions.push(s);
+
+
+    // REMOVE sol1 AND sol2
+    let idx1 = solutions.indexOf(sol1);
+    if (idx1 !== -1) solutions.splice(idx1, 1);
+    let idx2 = solutions.indexOf(sol2);
+    if (idx2 !== -1) solutions.splice(idx2, 1);
 }
 
 function draw(){
@@ -116,7 +135,11 @@ function draw(){
                 solutions[jj].col = color(0,255,0,127);
                 
                 // merge
-
+                if (released) {
+                    // let id1 = solutions[ii].id;
+                    // let id2 = solutions[jj].id;
+                    mergeSols(solutions[ii], solutions[jj]);
+                }
             }
         }
     }
