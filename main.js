@@ -1,6 +1,7 @@
 let createbutton;
 let guide, input, button;
 let auto_input, auto_div, auto_comp;
+var merge_inputs = [];
 var solutions = [];
 var infos = ['Name', 'Product No.', 'Type', 'Solvent', 'Concentration'];
 var cur = 0;
@@ -50,14 +51,12 @@ function draw(){
         }
     }
     // UPDATE VOLUMN
-    if (solutions.length > 1){
-        let _s = solutions[solutions.length-1];
-        if (_s.volumn == null && _s.mixed == true){
-            updateVol(_s);
-            
-        }
-    }
-    
+    // if (solutions.length > 1){
+    //     let _s = solutions[solutions.length-1];
+    //     if (_s.volumn == null && _s.mixed == true){
+    //         updateVol(_s);
+    //     }
+    // }
 
     // COPY function
     solutions.forEach(function(s){
@@ -67,6 +66,12 @@ function draw(){
                 s.col = color(255,255,0,127);
                 // new_s.x = mouseX;
                 // new_s.y = mouseY;
+                if (mouseIsPressed){
+                    // s.x = cur_x;
+                    // s.y = cur_y;
+                    fill(color(255,0,255,127));
+                    rect(mouseX, mouseY, 200, 40, 20);
+                }
             }
         }
     })

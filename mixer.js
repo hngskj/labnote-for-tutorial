@@ -74,6 +74,13 @@ function updateVol(sol){
 
     fill(50, 50);
     rect(sol.x, sol.y+110, 200, 200);
-    // s1_t = createP()
+    
+    fill(0);
+    sol.prev_names.forEach(function(n, i){
+        text(n, sol.x-70, sol.y+40+(i*70));
+        let m_in = createInput();
+        m_in.position(sol.x-70, sol.y+55+(i*70));
+        m_in.size(80,30);
+    })
     // s1_in = createInput();
 }
